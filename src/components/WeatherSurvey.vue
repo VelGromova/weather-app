@@ -11,8 +11,6 @@
         >
           {{ filterItem.title }}
         </li>
-
-        <!--        <li class="nav__label nav__label&#45;&#45;clear" :class="{ active: filterItem.isActive }">Clear all</li>-->
       </ul>
     </nav>
 

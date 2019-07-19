@@ -53,26 +53,6 @@ export default {
       return this.bgClearDefault;
     },
   },
-
-  methods: {
-    // getSkyValue() {
-    //   return this.days.filter(day => day.sky);
-    // }
-  }
-  //
-  //   // rainyDay() {
-  //   //   return this.days.filter(day => day.sky === 'rain');
-  //   // },
-  //
-  //   filteredCards() {
-  //     if (!this.filteredByRain) {
-  //       return this.days;
-  //     }
-  //   },
-  //   filteredByRain() {
-  //     return this.days.filter(day => day.sky === 'rain');
-  //   },
-  // },
 };
 </script>
 
