@@ -1,0 +1,22 @@
+:root {
+  --color-gray-dark: #333333;
+
+  --color-white: #fff;
+  --color-lightgrey: #fafafa;
+  --color-darkgrey: #3d3e40;
+
+  --color-red: #B22222;
+
+  --color-navigation-inactive: #bdbdbd;
+
+  --button-color: #379a93;
+  --button-color--hover: #30876b;
+  --button-color--active: #2a745c;
+
+  --base-font-family: 'Poppins', sans-serif;
+  --base-font-size: 1rem;
+
+  --quote-font-family: 'Raleway', sans-serif;
+
+  --window-background: var(--color-lightgrey);
+}

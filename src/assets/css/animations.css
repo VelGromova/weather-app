@@ -1,0 +1,19 @@
+.load-enter-active, .load-leave-active {
+  transition: opacity 500ms
+}
+.load-enter, .load-leave-to {
+  opacity: 0
+}
+
+.day-move { transition: all 600ms ease-in-out 50ms }
+.day-enter-active { transition: all 300ms ease-out }
+
+.day-leave-active {
+  transition: all 200ms ease-in;
+  position: absolute;
+  z-index: 0;
+}
+
+.day-enter,
+.day-leave-to { opacity: 0 }
+.day-enter { transform: scale(0.9) }
