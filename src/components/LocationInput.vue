@@ -35,7 +35,6 @@ export default {
 
   methods: {
     getLocation(event) {
-      console.log('On search 1')
       this.$emit('onSearch', this.$data.location);
     },
   },
