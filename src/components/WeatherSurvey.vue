@@ -32,7 +32,6 @@
             <output>
               <label>Minimum {{ index }}:&nbsp;</label>
             </output>
-
             <input v-model="filterItem.value" class="filters__range" type="range"/>
           </li>
         </div>
@@ -90,12 +89,6 @@ export default {
     border-bottom: 1px solid #c5d0d1;
 
     &__controls { display: flex }
-
-    &__icon {
-      width: 1rem;
-      height: 1rem;
-      fill: currentColor;
-    }
 
     &__label {
       position: relative;
@@ -174,14 +167,6 @@ export default {
         border-color: #379a93;
         background-color: #379a93;
       }
-    }
-
-    &__rating {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.5rem 0;
     }
 
     &__range {

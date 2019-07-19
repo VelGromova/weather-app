@@ -4,7 +4,7 @@
     <div class="container">
       <location-input @onSearch="onSearch" @search="setLocation" :error="errorMessage"/>
       <transition name="day" appear>
-        <weather-survey :days="days" :key="days.length"/>
+        <weather-survey :days="days" :key="days.length" v-if="days.length > 1"/>
       </transition>
       <transition name="day" appear>
         <weather-cards :days="days" :key="days.length"/>
