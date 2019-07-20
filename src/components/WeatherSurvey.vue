@@ -15,11 +15,10 @@
     </nav>
 
     <menu v-for="(filterItem, index) in filters" class="filters" v-if="filterItem.isActive" :key="'showDropDown-' + index">
-      <template>
-        <div v-if="index == 'sky'">
+        <div v-if="index === 'sky'">
           <li
             v-for="(weather, skyIndex) in skyStates"
-            v-if="index == 'sky'"
+            v-if="index === 'sky'"
             class="filters__item"
             :key="'skyIndex-' + skyIndex"
             :class="{ 'filters__item--active': filterItem.isActive }"
@@ -30,12 +29,11 @@
         <div v-else>
           <li>
             <output>
-              <label>Minimum {{ index }}:&nbsp;</label>
+              <label>{{ index }}:&nbsp; {{ filterItem.value }}</label>
             </output>
-            <input v-model="filterItem.value" class="filters__range" type="range"/>
+            <input v-model="filterItem.value" :max="maxValue" :min="minValue" class="filters__range" type="range"/>
           </li>
         </div>
-      </template>
     </menu>
   </div>
 </template>
@@ -54,7 +52,7 @@ export default {
       filters: {
         sky: { title: 'Sky', isActive: false, value: '' },
         wind: { title: 'Wind', isActive: false, value: 0 },
-        temperature: { title: 'Temperature', isActive: false, value: 0 }
+        temperature: { title: 'Temperature', isActive: false, value: 0 },
       },
     };
   },
@@ -74,7 +72,17 @@ export default {
 
       return [...new Set(allSkyValues.map(day => day.sky))];
     },
+    rangeValue() {
+      return this.days.map(day => day.temperature);
+    },
+    maxValue() {
+      return this.filters.temperature.value = Math.max.apply(Math, this.rangeValue);
+    },
+    minValue() {
+      return this.filters.temperature.value = Math.min.apply(Math, this.rangeValue);
+    },
   },
+
 };
 </script>
 
