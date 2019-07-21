@@ -1,14 +1,16 @@
 <template>
-  <li :style="{ background: skyStateBg }"
-      class="day">
-    <h3 class="day__weather__location">{{ location }}</h3>
-    <h2 class="day__date">{{ date }}</h2>
-    <ul class="day__weather">
-      <li class="day__weather__temperature">{{ temp }}&#176;C</li>
-      <li class="day__weather__description">{{ description }}</li>
-      <li class="day__weather__sky">Wind: <span>{{ wind }} km/h</span></li>
-    </ul>
-  </li>
+  <transition name="day" tag="div">
+    <li :style="{ background: skyStateBg }"
+        class="day">
+      <h3 class="day__weather__location">{{ location }}</h3>
+      <h2 class="day__date">{{ date }}</h2>
+      <ul class="day__weather">
+        <li class="day__weather__temperature">{{ temp }}&#176;C</li>
+        <li class="day__weather__description">{{ description }}</li>
+        <li class="day__weather__sky">Wind: <span>{{ wind }} km/h</span></li>
+      </ul>
+    </li>
+  </transition>
 </template>
 
 <script>
@@ -65,7 +67,7 @@ export default {
       align-items: center;
       min-width: 220px;
       min-height: 300px;
-      margin-top: 1rem;
+      margin: 1rem 0 0 1rem;
       padding-top: 0.75rem;
       color: var(--color-white);
       border-radius: 6px;

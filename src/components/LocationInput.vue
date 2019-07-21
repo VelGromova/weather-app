@@ -1,12 +1,12 @@
 <template>
   <div class="location-input">
-    <input type="text"
-           @keyup="getLocation"
-           v-model="location"
-           placeholder="Please, type your location"/>
-    <span class="error-message">
+      <input type="text"
+             @keyup="getLocation"
+             v-model="location"
+             placeholder="Please, type your location"/>
+      <span class="error-message">
       {{ error }}
-    </span>
+      </span>
     <primary-button @click="$emit('search')">
       Submit location
     </primary-button>

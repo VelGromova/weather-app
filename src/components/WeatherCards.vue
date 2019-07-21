@@ -1,17 +1,16 @@
 <template>
-    <div class="days">
-      <weather-day
-        v-for="day in days"
-        :key="day.id"
-        :date="day.date"
-        :sky="day.sky"
-        :temp="day.temperature"
-        :location="day.location"
-        :wind="day.windSpeed"
-        :description="day.description"
-      />
-    </div>
-
+  <div class="days">
+    <weather-day
+      v-for="day in days"
+      :key="day.id"
+      :date="day.date"
+      :sky="day.sky"
+      :temp="day.temperature"
+      :location="day.location"
+      :wind="day.windSpeed"
+      :description="day.description"
+    />
+  </div>
 </template>
 
 <script>
@@ -35,7 +34,6 @@ export default {
 
 <style lang="scss">
   .days {
-    display: flex;
-    justify-content: space-between;
+    display: inline-flex;
   }
 </style>

@@ -4,10 +4,16 @@
     <div class="container">
       <location-input @onSearch="onSearch" @search="setLocation" :error="errorMessage"/>
       <transition name="day" appear>
-        <weather-survey :days="days" :key="days.length" v-if="days.length > 1"/>
+        <weather-survey
+          :days="days"
+          :key="days.length"
+          v-if="days.length > 0"
+          @skyFilter="(e) => filters.sky = e"
+          @temperatureFilter="(e) => filters.temperature = e"
+          @windFilter="(e) => filters.windSpeed = e"/>
       </transition>
       <transition name="day" appear>
-        <weather-cards :days="days" :key="days.length"/>
+        <weather-cards :days="filteredDays" :key="filteredDays.length"/>
       </transition>
     </div>
 
@@ -15,6 +21,7 @@
 </template>
 
 <script>
+import { filter } from 'lodash';
 import axios from 'axios';
 import Slider from './Slider';
 import LocationInput from './LocationInput';
@@ -34,7 +41,53 @@ export default {
       days: [],
       errorMessage: '',
       location: '',
+      filteredDays: [],
+      filters: {
+        sky: null,
+        temperature: null,
+        wind: null,
+      },
     };
+  },
+
+  watch: {
+    filters: {
+      handler: function () {
+        let updatedDays = this.$data.days;
+
+        const sky = this.$data.filters.sky;
+        const temperature = this.$data.filters.temperature;
+        const wind = this.$data.filters.wind;
+
+        if (sky !== null && sky !== '') {
+          updatedDays = filter(updatedDays, function(day) {
+            return day.sky === sky;
+          }.bind(this));
+        }
+
+        if (temperature !== null) {
+          updatedDays = filter(updatedDays, function(day) {
+            return day.temperature === temperature;
+          }.bind(this));
+        }
+
+        if (wind !== null) {
+          updatedDays = filter(updatedDays, function(day) {
+            return day.wind === wind;
+          }.bind(this));
+        }
+
+        this.$data.filteredDays = updatedDays;
+      },
+      deep: true,
+    },
+
+    resetFilters: {
+      handler: function () {
+        this.$data.filteredDays = this.$data.days;
+      },
+      deep: true,
+    },
   },
 
   methods: {
@@ -63,6 +116,7 @@ export default {
               location: city.toUpperCase(),
             }));
           this.$data.error = '';
+          this.$data.filteredDays = this.$data.days;
         })
 
         .catch(() => {

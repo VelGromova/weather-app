@@ -15,25 +15,34 @@
     </nav>
 
     <menu v-for="(filterItem, index) in filters" class="filters" v-if="filterItem.isActive" :key="'showDropDown-' + index">
-        <div v-if="index === 'sky'">
-          <li
-            v-for="(weather, skyIndex) in skyStates"
-            v-if="index === 'sky'"
-            class="filters__item"
-            :key="'skyIndex-' + skyIndex"
-            :class="{ 'filters__item--active': filterItem.isActive }"
-          >
-            {{ weather }}
-          </li>
-        </div>
-        <div v-else>
-          <li>
-            <output>
-              <label>{{ index }}:&nbsp; {{ filterItem.value }}</label>
-            </output>
-            <input v-model="filterItem.value" :max="maxValue" :min="minValue" class="filters__range" type="range"/>
-          </li>
-        </div>
+      <div v-if="index === 'sky'">
+        <li
+          v-for="(weather, skyIndex) in skyStates"
+          v-if="index === 'sky'"
+          class="filters__item"
+          :key="'skyIndex-' + skyIndex"
+          :class="{ 'filters__item--active': filterItem.isActive }"
+          @click="filters.sky.value = weather"
+        >
+          {{ weather }}
+        </li>
+      </div>
+      <div v-if="index === 'temperature'">
+        <li>
+          <output>
+            <label>{{ index }}:&nbsp; {{ filterItem.value }}</label>
+          </output>
+          <input v-model="filterItem.value" :max="maxTempValue" :min="minTempValue" class="filters__range" type="range"/>
+        </li>
+      </div>
+      <div v-if="index === 'wind'">
+        <li>
+          <output>
+            <label>{{ index }}:&nbsp; {{ filterItem.value }}</label>
+          </output>
+          <input v-model="filterItem.value" :max="maxWindValue" :min="minWindValue" class="filters__range" type="range"/>
+        </li>
+      </div>
     </menu>
   </div>
 </template>
@@ -56,6 +65,22 @@ export default {
       },
     };
   },
+  watch: {
+    filters: {
+      handler: function() {
+        if (this.$data.filters.sky.value !== '') {
+          this.$emit('skyFilter', this.$data.filters.sky.value);
+        }
+        if (this.$data.filters.temperature.value !== 0) {
+          this.$emit('temperatureFilter', this.$data.filters.temperature.value);
+        }
+        if (this.$data.filters.wind.value !== 0) {
+          this.$emit('windFilter', this.$data.filters.wind.value);
+        }
+      },
+      deep: true,
+    },
+  },
 
   methods: {
     changeFilterStatus(index, status) {
@@ -65,21 +90,34 @@ export default {
 
       this.$data.filters[index].isActive = status;
     },
+
   },
   computed: {
     skyStates() {
       const allSkyValues = this.days;
-
       return [...new Set(allSkyValues.map(day => day.sky))];
     },
-    rangeValue() {
+
+    // temperature
+    getTempValue() {
       return this.days.map(day => day.temperature);
     },
-    maxValue() {
-      return this.filters.temperature.value = Math.max.apply(Math, this.rangeValue);
+    maxTempValue() {
+      return this.filters.temperature.value = Math.max.apply(Math, this.getTempValue);
     },
-    minValue() {
-      return this.filters.temperature.value = Math.min.apply(Math, this.rangeValue);
+    minTempValue() {
+      return this.filters.temperature.value = Math.min.apply(Math, this.getTempValue);
+    },
+
+    // wind
+    getWindValue() {
+      return this.days.map(day => day.windSpeed);
+    },
+    maxWindValue() {
+      return this.filters.wind.value = Math.max.apply(Math, this.getWindValue);
+    },
+    minWindValue() {
+      return this.filters.wind.value = Math.min.apply(Math, this.getWindValue);
     },
   },
 
