@@ -1,5 +1,5 @@
 <template>
-  <div class="days">
+  <ul class="days">
     <weather-day
       v-for="day in days"
       :key="day.id"
@@ -10,7 +10,7 @@
       :wind="day.windSpeed"
       :description="day.description"
     />
-  </div>
+  </ul>
 </template>
 
 <script>

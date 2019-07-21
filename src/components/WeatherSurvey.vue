@@ -15,7 +15,7 @@
     </nav>
 
     <menu v-for="(filterItem, index) in filters" class="filters" v-if="filterItem.isActive" :key="'showDropDown-' + index">
-      <div v-if="index === 'sky'">
+      <ul v-if="index === 'sky'">
         <li
           v-for="(weather, skyIndex) in skyStates"
           v-if="index === 'sky'"
@@ -26,23 +26,23 @@
         >
           {{ weather }}
         </li>
-      </div>
-      <div v-if="index === 'temperature'">
+      </ul>
+      <ul v-if="index === 'temperature'">
         <li>
           <output>
             <label>{{ index }}:&nbsp; {{ filterItem.value }}</label>
           </output>
           <input v-model="filterItem.value" :max="maxTempValue" :min="minTempValue" class="filters__range" type="range"/>
         </li>
-      </div>
-      <div v-if="index === 'wind'">
+      </ul>
+      <ul v-if="index === 'wind'">
         <li>
           <output>
             <label>{{ index }}:&nbsp; {{ filterItem.value }}</label>
           </output>
           <input v-model="filterItem.value" :max="maxWindValue" :min="minWindValue" class="filters__range" type="range"/>
         </li>
-      </div>
+      </ul>
     </menu>
   </div>
 </template>
@@ -233,6 +233,9 @@ export default {
         height: 4px;
         background-image: linear-gradient(to right, #fff, #46d2c4);
       }
+    }
+    ul {
+      display: flex;
     }
   }
 

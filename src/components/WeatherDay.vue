@@ -1,5 +1,5 @@
 <template>
-  <transition name="day" tag="div">
+  <transition name="day">
     <li :style="{ background: skyStateBg }"
         class="day">
       <h3 class="day__weather__location">{{ location }}</h3>
