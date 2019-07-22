@@ -11,6 +11,7 @@
         >
           {{ filterItem.title }}
         </li>
+        <li class="nav__label nav__label--clear" @click="clearFilters">Clear filters</li>
       </ul>
     </nav>
 
@@ -67,24 +68,25 @@ export default {
   },
   watch: {
     filters: {
-      handler: function() {
-        if (this.$data.filters.sky.value !== '') {
-          this.$emit('skyFilter', this.$data.filters.sky.value);
-        }
-        if (this.$data.filters.temperature.value !== 0) {
-          this.$emit('temperatureFilter', this.$data.filters.temperature.value);
-        }
-        if (this.$data.filters.wind.value !== 0) {
-          this.$emit('windFilter', this.$data.filters.wind.value);
-        }
+      handler() {
+        const sky = this.$data.filters.sky.value;
+        const temperature = parseInt(this.$data.filters.temperature.value);
+        const wind = parseInt(this.$data.filters.wind.value);
+
+        this.$emit('filterHandler', sky, temperature, wind);
       },
       deep: true,
     },
   },
 
   methods: {
+    clearFilters() {
+      this.$data.filters.sky.value = '';
+      this.$data.filters.wind.value = 0;
+      this.$data.filters.temperature.value = 0;
+    },
     changeFilterStatus(index, status) {
-      for (let filter in this.$data.filters) {
+      for (const filter in this.$data.filters) {
         this.$data.filters[filter].isActive = false;
       }
 
@@ -103,10 +105,10 @@ export default {
       return this.days.map(day => day.temperature);
     },
     maxTempValue() {
-      return this.filters.temperature.value = Math.max.apply(Math, this.getTempValue);
+      return this.filters.temperature.value = Math.max(...this.getTempValue);
     },
     minTempValue() {
-      return this.filters.temperature.value = Math.min.apply(Math, this.getTempValue);
+      return this.filters.temperature.value = Math.min(...this.getTempValue);
     },
 
     // wind
@@ -114,10 +116,10 @@ export default {
       return this.days.map(day => day.windSpeed);
     },
     maxWindValue() {
-      return this.filters.wind.value = Math.max.apply(Math, this.getWindValue);
+      return this.filters.wind.value = Math.max(...this.getWindValue);
     },
     minWindValue() {
-      return this.filters.wind.value = Math.min.apply(Math, this.getWindValue);
+      return this.filters.wind.value = Math.min(...this.getWindValue);
     },
   },
 
@@ -161,16 +163,14 @@ export default {
 
       &--clear {
         color: #f68185;
-        opacity: 0;
+        margin-left: 3rem;
         transform: translate3d(-25%, 0, 0);
-        pointer-events: none;
         transition: all 275ms ease-in-out;
       }
 
       &--filter ~ &--clear {
         opacity: 1;
         transform: translate3d(0, 0, 0);
-        pointer-events: auto;
       }
 
       &--filter::after {

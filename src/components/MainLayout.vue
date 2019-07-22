@@ -8,9 +8,8 @@
           :days="days"
           :key="days.length"
           v-if="days.length > 0"
-          @skyFilter="(e) => filters.sky = e"
-          @temperatureFilter="(e) => filters.temperature = e"
-          @windFilter="(e) => filters.windSpeed = e"/>
+          @filterHandler="changeFilters"
+        />
       </transition>
       <transition name="day" appear>
         <weather-cards :days="filteredDays" :key="filteredDays.length"/>
@@ -54,26 +53,25 @@ export default {
     filters: {
       handler: function () {
         let updatedDays = this.$data.days;
-
         const sky = this.$data.filters.sky;
         const temperature = this.$data.filters.temperature;
         const wind = this.$data.filters.wind;
 
         if (sky !== null && sky !== '') {
           updatedDays = filter(updatedDays, function(day) {
-            return day.sky === sky;
+            return day.sky == sky;
           }.bind(this));
         }
 
-        if (temperature !== null) {
+        if (temperature !== null && temperature !== 0) {
           updatedDays = filter(updatedDays, function(day) {
-            return day.temperature === temperature;
+            return day.temperature == temperature;
           }.bind(this));
         }
 
-        if (wind !== null) {
+        if (wind !== null && wind !== 0) {
           updatedDays = filter(updatedDays, function(day) {
-            return day.wind === wind;
+            return day.windSpeed == wind;
           }.bind(this));
         }
 
@@ -81,16 +79,13 @@ export default {
       },
       deep: true,
     },
-
-    resetFilters: {
-      handler: function () {
-        this.$data.filteredDays = this.$data.days;
-      },
-      deep: true,
-    },
   },
 
   methods: {
+    changeFilters(sky, temperature, wind) {
+      this.$data.filters = { sky, temperature, wind };
+    },
+
     onSearch(value) {
       this.$data.location = value;
     },
@@ -127,7 +122,6 @@ export default {
         });
     },
   },
-
 };
 </script>
 
